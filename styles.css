@@ -299,9 +299,7 @@ main {
   padding-top: 80px; /* height of fixed header */
 }
 
-/* =====================
-   inner pages - timer, games, music, and to-do all share this layout
-   ===================== */
+/* inner pages */
 .inner-page-content {
   flex: 1;
   max-width: 960px;
@@ -323,10 +321,197 @@ main {
   margin-bottom: 32px;
 }
 
+/* home dashboard */
+#homeDashboard {
+  flex: 1;
+  width: 100%;
+}
 
-/* =====================
-   hero - the big full-screen intro at the top of the homepage
-   ===================== */
+.dash-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dash-welcome {
+  padding: 4px 0;
+}
+
+.dash-greeting {
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.dash-date {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.dash-quote-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px 22px 20px 26px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 22px rgba(108, 99, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-quote-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--primary), #a78bfa);
+  border-radius: 4px 0 0 4px;
+}
+
+.dash-quote-icon {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+
+.dash-quote-text {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.dash-quote-author {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: right;
+}
+
+.dash-quote-author:empty {
+  display: none;
+}
+
+.dash-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 12px;
+}
+
+.dash-stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(45, 52, 54, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dash-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(108, 99, 255, 0.12);
+}
+
+.dash-stat-num {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.dash-stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-light);
+  line-height: 1.35;
+}
+
+.dash-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px 18px;
+  box-shadow: 0 2px 16px rgba(45, 52, 54, 0.05);
+}
+
+.dash-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+.dash-recents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dash-recent-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+.dash-recent-item:hover {
+  background: #e8ecff;
+  border-color: rgba(108, 99, 255, 0.22);
+}
+
+.dash-recent-item:active {
+  transform: scale(0.99);
+}
+
+.dash-recent-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.dash-empty {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 24px 16px;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .dash-wrap {
+    padding: 20px 16px 48px;
+    gap: 18px;
+  }
+
+  .dash-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
 .hero {
   min-height: 100vh;
   background: linear-gradient(135deg, #6C63FF 0%, #a78bfa 100%);
