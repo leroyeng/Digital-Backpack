@@ -1082,7 +1082,6 @@
     /* ============================
        DASHBOARD
        ============================ */
-    const QUOTE_CACHE_KEY = 'dash_quote_v1';
     const STREAK_PREFIX = 'backpack_streak_v1::';
 
     function updateStreak(email) {
@@ -1166,33 +1165,36 @@
       });
     }
 
-    function loadDailyQuote() {
-      const today = new Date().toDateString();
-      try {
-        const cached = JSON.parse(sessionStorage.getItem(QUOTE_CACHE_KEY) || 'null');
-        if (cached && cached.date === today) {
-          setQuote(cached.text, cached.author);
-          return;
-        }
-      } catch (e) {}
+    const KID_QUOTES = [
+      { text: 'You are braver than you believe, stronger than you seem, and smarter than you think.', author: 'A.A. Milne' },
+      { text: 'The more that you read, the more things you will know.', author: 'Dr. Seuss' },
+      { text: 'You have brains in your head and feet in your shoes. You can steer yourself any direction you choose.', author: 'Dr. Seuss' },
+      { text: 'Believe you can and you\'re halfway there.', author: 'Theodore Roosevelt' },
+      { text: 'You\'re off to great places, today is your day! Your mountain is waiting, so get on your way.', author: 'Dr. Seuss' },
+      { text: 'It always seems impossible until it\'s done.', author: 'Nelson Mandela' },
+      { text: 'Be yourself — everyone else is already taken.', author: 'Oscar Wilde' },
+      { text: 'It does not matter how slowly you go as long as you do not stop.', author: 'Confucius' },
+      { text: 'The secret of getting ahead is getting started.', author: 'Mark Twain' },
+      { text: 'Do what you can, with what you have, where you are.', author: 'Theodore Roosevelt' },
+      { text: 'You don\'t have to be great to start, but you have to start to be great.', author: 'Zig Ziglar' },
+      { text: 'Hard work beats talent when talent doesn\'t work hard.', author: 'Tim Notke' },
+      { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
+      { text: 'Learning is a treasure that will follow its owner everywhere.', author: 'Chinese Proverb' },
+      { text: 'Today a reader, tomorrow a leader.', author: 'Margaret Fuller' },
+      { text: 'The expert in anything was once a beginner.', author: 'Helen Hayes' },
+      { text: 'You are never too old to set another goal or to dream a new dream.', author: 'C.S. Lewis' },
+      { text: 'The more you practice, the better you get.', author: 'Robin Sharma' },
+      { text: 'Every accomplishment starts with the decision to try.', author: 'John F. Kennedy' },
+      { text: 'Try to be a rainbow in someone\'s cloud.', author: 'Maya Angelou' },
+      { text: 'If you have good thoughts they will shine out of your face like sunbeams and you will always look lovely.', author: 'Roald Dahl' },
+      { text: 'When you change your thoughts, remember to also change your world.', author: 'Norman Vincent Peale' },
+      { text: 'Just one small positive thought in the morning can change your whole day.', author: 'Dalai Lama' },
+    ];
 
-      fetch('https://dummyjson.com/quotes/random')
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          const text = data.quote || '';
-          const author = data.author || '';
-          setQuote(text, author);
-          sessionStorage.setItem(QUOTE_CACHE_KEY, JSON.stringify({ date: today, text: text, author: author }));
-        })
-        .catch(function() {
-          const fallbacks = [
-            { text: 'The secret of getting ahead is getting started.', author: 'Mark Twain' },
-            { text: 'It always seems impossible until it\'s done.', author: 'Nelson Mandela' },
-            { text: 'Push yourself, because no one else is going to do it for you.', author: 'Unknown' },
-          ];
-          const q = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-          setQuote(q.text, q.author);
-        });
+    function loadDailyQuote() {
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+      const q = KID_QUOTES[dayOfYear % KID_QUOTES.length];
+      setQuote(q.text, q.author);
     }
 
     function setQuote(text, author) {
