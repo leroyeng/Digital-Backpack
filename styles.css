@@ -2634,6 +2634,75 @@ main {
   height: auto;
 }
 
+#gbc-emulator-frame {
+  aspect-ratio: 640 / 576;
+}
+
+/* games hub menu */
+.game-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.game-menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.25rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.game-menu-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 6px 20px rgba(108, 99, 255, 0.15);
+}
+
+.game-menu-emoji {
+  font-size: 2.75rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.game-menu-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.game-menu-desc {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
+.game-back-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  cursor: pointer;
+  margin-bottom: 1rem;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.game-back-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 /* =====================
    in-app toast + sheet (replaces alert/confirm/prompt — no “localhost…”)
    ===================== */
