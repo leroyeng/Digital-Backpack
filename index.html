@@ -462,19 +462,59 @@
       </div>
     </div>
 
-    <!-- ========== games page ========== -->
+    <!-- ========== games hub page ========== -->
     <div id="page-games" class="page">
       <div class="inner-page-content">
         <p class="page-title">🎮 Games</p>
-        <p class="page-subtitle">Play games while you take a break from studying!</p>
+        <p class="page-subtitle">Pick a game to play while you take a break from studying!</p>
+        <div class="game-menu">
+          <button type="button" class="game-menu-card" onclick="openGame('firewall')">
+            <span class="game-menu-emoji">🛡️</span>
+            <span class="game-menu-name">Firewall Invader</span>
+            <span class="game-menu-desc">Retro arcade shooter — defend against antivirus programs.</span>
+          </button>
+          <button type="button" class="game-menu-card" onclick="openGame('gbc')">
+            <span class="game-menu-emoji">🎮</span>
+            <span class="game-menu-name">Game Boy Color Emulator</span>
+            <span class="game-menu-desc">A C++ Game Boy Color emulator ported to WebAssembly. Now playing: Tetris DX.</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== firewall invader subpage ========== -->
+    <div id="page-game-firewall" class="page">
+      <div class="inner-page-content">
+        <button type="button" class="game-back-btn" onclick="closeGame()">← Back to Games</button>
+        <p class="page-title">🛡️ Firewall Invader</p>
+        <p class="page-subtitle">Use WASD or arrow keys to move, your mouse to aim, and spacebar to shoot.</p>
         <div class="game-container">
-          <h2 class="game-card-title">Firewall Invader</h2>
-          <p class="game-card-desc">Defend against antivirus programs in this retro arcade shooter. Use WASD or arrow keys to move, your mouse to aim and spacebar to shoot!</p>
           <iframe
             id="firewall-invader-frame"
-            src="firewall-invader/index.html"
+            data-src="firewall-invader/index.html?v=2"
+            src=""
             width="960"
             height="540"
+            style="border: none; border-radius: 12px; display: block; margin: 0 auto; max-width: 100%;"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== gbc emulator subpage ========== -->
+    <div id="page-game-gbc" class="page">
+      <div class="inner-page-content">
+        <button type="button" class="game-back-btn" onclick="closeGame()">← Back to Games</button>
+        <p class="page-title">🎮 Game Boy Color Emulator — Tetris DX</p>
+        <p class="page-subtitle">Click the canvas to start. Controls: WASD = D-pad, N = A, M = B, Enter = Start, Right Shift = Select.</p>
+        <div class="game-container">
+          <iframe
+            id="gbc-emulator-frame"
+            data-src="gbc/index.html"
+            src=""
+            width="640"
+            height="576"
             style="border: none; border-radius: 12px; display: block; margin: 0 auto; max-width: 100%;"
             allowfullscreen
           ></iframe>
@@ -748,7 +788,42 @@
     }
 
     
+    // game iframe ids — used to lazy-load and to tear down on leave so audio
+    // doesn't keep playing when the user navigates away
+    const GAME_FRAME_IDS = ['firewall-invader-frame', 'gbc-emulator-frame'];
+    const GAME_SUBPAGES = ['game-firewall', 'game-gbc'];
+
+    function unloadAllGames() {
+      GAME_FRAME_IDS.forEach(function(id) {
+        const f = document.getElementById(id);
+        if (f && f.src && f.src !== '' && !f.src.endsWith('about:blank')) {
+          f.src = '';
+        }
+      });
+    }
+
+    function openGame(name) {
+      const pageId = 'game-' + name;
+      const frameId = (name === 'firewall') ? 'firewall-invader-frame' : 'gbc-emulator-frame';
+      const frame = document.getElementById(frameId);
+      if (frame && frame.dataset.src) {
+        frame.src = frame.dataset.src;
+      }
+      // keep the Games toolbar link highlighted while inside a game subpage
+      const gamesLink = document.querySelector('.toolbar nav a[onclick*="\'games\'"]');
+      showPage(pageId, gamesLink);
+    }
+
+    function closeGame() {
+      const gamesLink = document.querySelector('.toolbar nav a[onclick*="\'games\'"]');
+      showPage('games', gamesLink);
+    }
+
     function showPage(pageId, linkEl) {
+      // tear down any running game iframes when leaving a game subpage
+      if (GAME_SUBPAGES.indexOf(pageId) === -1) {
+        unloadAllGames();
+      }
       // hide all pages first
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       // then show just the one that was clicked
