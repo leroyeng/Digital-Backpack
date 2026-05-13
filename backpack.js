@@ -942,20 +942,30 @@ function bpDeleteNotebookPage(pageId) {
   if (!bpEditingItem || bpEditingItem.type !== 'notebook') return;
   var doc = bpEnsureNotebookDoc(bpEditingItem);
   if (doc.pages.length <= 1) {
-    alert('Keep at least one entry in this notebook.');
+    if (typeof window.showAppToast === 'function') {
+      window.showAppToast('Keep at least one entry in this notebook.', 'error');
+    }
     return;
   }
   bpSyncNotebookFromDom(false);
-  if (!confirm('Delete this entry?')) return;
-  var idx = doc.pages.findIndex(function(p) { return p.id === pageId; });
-  if (idx === -1) return;
-  doc.pages.splice(idx, 1);
-  if (doc.activePageId === pageId) {
-    doc.activePageId = doc.pages[0].id;
+  if (typeof window.showAppConfirm !== 'function') {
+    console.error('showAppConfirm missing (notebook delete).');
+    return;
   }
-  bpSaveState();
-  bpPushNotebookToBackend();
-  bpRender();
+  window.showAppConfirm('Delete this entry?').then(function(ok) {
+    if (!ok) return;
+    if (!bpEditingItem || bpEditingItem.type !== 'notebook') return;
+    var d = bpEnsureNotebookDoc(bpEditingItem);
+    var idx = d.pages.findIndex(function(p) { return String(p.id) === String(pageId); });
+    if (idx === -1) return;
+    d.pages.splice(idx, 1);
+    if (String(d.activePageId) === String(pageId)) {
+      d.activePageId = d.pages[0].id;
+    }
+    bpSaveState();
+    bpPushNotebookToBackend();
+    bpRender();
+  });
 }
 
 function bpPageRowClick(ev, pageId) {
