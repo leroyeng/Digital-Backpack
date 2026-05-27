@@ -1,6 +1,6 @@
 # Digital Backpack
 
-A student productivity web app — folders, notes, flashcards, todos, and a built-in lo-fi player. Built with plain HTML, CSS, and JavaScript.
+A student productivity web app; includes folders, notes, flashcards, todos, and a built-in lo-fi player. Built with plain HTML, CSS, and JavaScript.
 
 ## Live Demo
 
