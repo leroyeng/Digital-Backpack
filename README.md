@@ -1,6 +1,12 @@
-# Front-End-Backpack
+# Digital Backpack
 
-Frontend for My Digital Backpack. Plain HTML/CSS/JS, no build step.
+A student productivity web app — folders, notes, flashcards, todos, and a built-in lo-fi player. Built with plain HTML, CSS, and JavaScript.
+
+## Live Demo
+
+[https://firstdigitalbackpack.netlify.app/](https://firstdigitalbackpack.netlify.app/)
+
+> **Note:** The live demo supports account creation and login (stored in your browser). Features like folders, notes, todos, and flashcards require the local FastAPI backend to be running and will not work on the hosted demo.
 
 ## How to run the full app (frontend + backend)
 
